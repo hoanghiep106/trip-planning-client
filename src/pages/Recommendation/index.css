@@ -1,17 +1,69 @@
-.thumbnail {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  overflow: hidden;
+.google-maps-container {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  z-index: -1;
 }
 
-.thumbnail img {
+.place-list {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  height: 100%;
-  width: auto;
-  -webkit-transform: translate(-50%,-50%);
-      -ms-transform: translate(-50%,-50%);
-          transform: translate(-50%,-50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 2px 0 5px -2px #888;
+  width: 350px;
+}
+
+.place-list-height {
+  margin-top: -7px;
+  height: calc(100vh - 41px);
+}
+
+.place-list h4 {
+  color: white;
+  padding: 10px;
+  width: 100%;
+  background-color: #28a745;
+  box-shadow: 0 2px 5px -2px #888;
+}
+
+.place-item {
+  position: relative;
+  height: 117px;
+}
+
+.place-item .text {
+  display: inline-block;
+  padding: 10px;
+  font-weight: 500;
+  width: 200px;
+  vertical-align: top;
+}
+
+.place-item .image {
+  display: inline-block;
+  padding: 10px;
+}
+
+.place-item .image img{
+  height: 80px;
+  width: 120px;
+  box-shadow: -2px -2px 5px -2px #888;
+}
+
+.place-item .rating-icon {
+  position: absolute;
+  bottom: 27px;
+  right: 15px;
+}
+
+.place-item .rating-icon i {
+  color: #d8cc28;
+}
+
+.get-here-btn {
+  position: absolute;
+  bottom: 27px;
+  left: 150px;
+  font-size: 13px;
+  padding: 3px 5px;
 }

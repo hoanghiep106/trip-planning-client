@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import SearchBar from '../../components/SearchBar';
 
 class Recommendation extends Component {
   render() {

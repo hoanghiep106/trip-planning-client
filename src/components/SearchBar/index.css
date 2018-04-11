@@ -1,3 +1,15 @@
+.search-box {
+  position: absolute;
+  top: 5px;
+  width: 30%;
+  left: 35%;
+}
+
+.input-group {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 .input-group-addon, .input-group-btn, .input-group .form-control {
   display: flex;
   align-items: center;
@@ -9,9 +21,9 @@
   font-size: .875rem;
   font-weight: 400;
   line-height: 1.25;
-  color: #3e515b;
+  color: white;
   text-align: center;
-  background-color: #f0f3f5;
+  background-color: #28a745;
   border: 1px solid #c2cfd6;
 }
 
@@ -21,5 +33,11 @@
 
 .search-box input {
   border: none;
-  background-color: #f0f3f5;
+}
+
+button:focus,
+span:focus,
+:focus {
+  outline: 0 !important;
+  box-shadow: none !important;
 }

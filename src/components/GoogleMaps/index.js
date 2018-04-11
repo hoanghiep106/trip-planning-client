@@ -1,6 +1,6 @@
 import React from 'react';
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
-import { googleConfig } from '../../../../config/app';
+import { googleConfig } from '../../config/app';
 
 const MainGoogleMap = withGoogleMap(props => (
   <GoogleMap

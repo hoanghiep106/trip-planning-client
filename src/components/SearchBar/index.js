@@ -20,6 +20,7 @@ class SearchBar extends React.Component {
           className="form-control"
           name="search"
           onChange={event => handleChange(event.target.value)}
+          onFocus={this.props.onFocus}
         />
       </div>
     );
