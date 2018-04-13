@@ -67,3 +67,9 @@
   font-size: 13px;
   padding: 3px 5px;
 }
+
+.get-route-btn {
+  position: absolute;
+  bottom: 25px;
+  right: 50px;
+}

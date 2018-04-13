@@ -3,7 +3,6 @@ import SearchBar from '../../components/SearchBar';
 import RecommendationService from '../../services/Recommendation';
 import RecommendationList from './RecommendationList';
 import GoogleMaps from '../../components/GoogleMaps';
-import { googleConfig } from '../../config/app';
 
 import './index.css';
 
@@ -13,18 +12,35 @@ class Recommendation extends Component {
     this.places = [];
     this.state = {
       places: [],
-      pickedPlaces: [],
+      pickedPlaces: {},
       searchResults: false,
+      center: undefined,
+      routes: [],
     };
+    this.getPlaces = this.getPlaces.bind(this);
+    this.getRoute = this.getRoute.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleClickItem = this.handleClickItem.bind(this);
     this.showSearchResults = this.showSearchResults.bind(this);
     this.hideSearchResults = this.hideSearchResults.bind(this);
   }
 
   componentDidMount() {
+    this.getPlaces();
+  }
+
+  getPlaces() {
     RecommendationService.getPlaces().then((res) => {
       this.places = res.data.places;
       this.setState({ places: res.data.places });
+    });
+  }
+
+  getRoute() {
+    RecommendationService.getRoute({
+      place_ids: Object.keys(this.state.pickedPlaces).join(','),
+    }).then((res) => {
+      this.setState({ routes: res.data.routes });
     });
   }
 
@@ -40,7 +56,16 @@ class Recommendation extends Component {
   }
 
   handleClickItem(item) {
-
+    const pickedPlaces = { ...this.state.pickedPlaces };
+    if (!pickedPlaces[item.id]) {
+      pickedPlaces[item.id] = item;
+      this.places = this.places.filter(place => place.id !== item.id)
+      this.setState({
+        pickedPlaces,
+        places: this.state.places.filter(place => place.id !== item.id),
+        center: item.location,
+      });
+    }
   }
 
   showSearchResults() {
@@ -69,9 +94,11 @@ class Recommendation extends Component {
           mapElement={
             <div style={{ height: '100%' }} />
           }
-          defaultZoom={googleConfig.defaultZoom}
-          markers={this.state.pickedPlaces}
+          center={this.state.center}
+          markers={Object.keys(this.state.pickedPlaces).map(key => this.state.pickedPlaces[key])}
+          polylines={this.state.routes}
         />
+        <button className="btn btn-success get-route-btn" onClick={this.getRoute}>Get best route</button>
       </div>
     );
   }

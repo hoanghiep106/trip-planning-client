@@ -16,7 +16,7 @@ class SearchBar extends React.Component {
         </div>
         <input
           type="text"
-          placeholder="Tìm kiếm"
+          placeholder="Search"
           className="form-control"
           name="search"
           onChange={event => handleChange(event.target.value)}

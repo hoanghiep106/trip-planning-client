@@ -1,6 +1,7 @@
 import React from 'react';
-import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+import { withGoogleMap, GoogleMap, Marker, Polyline } from 'react-google-maps';
 import { googleConfig } from '../../config/app';
+import { decodePolyline } from '../../utils';
 
 const MainGoogleMap = withGoogleMap(props => (
   <GoogleMap
@@ -33,10 +34,29 @@ const MainGoogleMap = withGoogleMap(props => (
           </button>
         )
       }
-      <Marker
-        icon={{ url: "assets/img/location-marker.svg", scaledSize: new window.google.maps.Size(35, 35)}}
-        position={props.center}
-      />
+      {props.markers && props.markers.map(marker => (
+        <Marker
+          key={marker.id}
+          position={marker.location}
+        />
+      ))
+      }
+      {(props.polylines && props.polylines.length > 0) ?
+        props.polylines.map((trip, index) => (
+          <Polyline
+            key={index}
+            path={trip.route ? decodePolyline(trip.route) : []}
+            geodesic
+            options={{
+              strokeColor: '#2962FF',
+              strokeOpacity: 1.0,
+              strokeWeight: 3,
+            }}
+          />
+        ))
+        :
+        null
+      }
     </div>
   </GoogleMap>
 ));
