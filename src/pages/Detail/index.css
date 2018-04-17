@@ -1,0 +1,25 @@
+.cover {
+  height: 400px;
+}
+
+.cover-block {
+  width: 33.33%;
+  display: inline-block;
+}
+
+.cover-block__image {
+  width: 100%;
+}
+
+.detail-content {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.detail-content p {
+  font-size: 18px;
+}
+
+.detail-map-container {
+  height: 300px;
+}
