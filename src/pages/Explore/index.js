@@ -8,7 +8,7 @@ const ExploreItem = (props) => (
         className="explore-item--image"
         style={{ background: `url(${props.image_url}) no-repeat` }}
       />
-      <b>{props.name}</b>
+      <a href={`${window.location.href}/${props.id}`} target="_blank">{props.name}</a>
       <span className="explore-item--rating-icon">
         <i className="fa fa-star" /> {props.rating}
       </span>
