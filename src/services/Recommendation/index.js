@@ -9,6 +9,12 @@ const RecommendationService = {
       params,
     });
   },
+  getPlace(id) {
+    return axios({
+      method: 'get',
+      url: `${placesUrl}/${id}`,
+    });
+  },
   getRoute(params) {
     return axios({
       method: 'get',
