@@ -1,0 +1,25 @@
+.explore-item {
+  position: relative;
+}
+
+.explore-title {
+  font-size: 30px;
+  font-weight: 600;
+  margin-left: -15px;
+  margin-bottom: 1rem;
+}
+
+.explore-item--image {
+  height: 120px;
+  width: 100%;
+}
+
+.explore-item--rating-icon i {
+  color: #d8cc28;
+}
+
+@media (max-width: 500px) {
+  .explore-item--image {
+    height: 300px;
+  }
+}

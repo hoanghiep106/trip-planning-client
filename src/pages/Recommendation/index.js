@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import SearchBar from '../../components/SearchBar';
 import RecommendationService from '../../services/Recommendation';
 import RecommendationList from './RecommendationList';
 import GoogleMaps from '../../components/GoogleMaps';
@@ -79,7 +78,6 @@ class Recommendation extends Component {
   render() {
     return (
       <div>
-        <SearchBar search={this.handleSearch} onFocus={this.showSearchResults} />
         {this.state.searchResults &&
         <RecommendationList 
           places={this.state.places}

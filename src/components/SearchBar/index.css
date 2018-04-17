@@ -1,8 +1,6 @@
 .search-box {
   position: absolute;
-  top: 5px;
-  width: 30%;
-  left: 35%;
+  width: 400px;
 }
 
 .input-group {
@@ -23,7 +21,7 @@
   line-height: 1.25;
   color: white;
   text-align: center;
-  background-color: #28a745;
+  background-color: #444;
   border: 1px solid #c2cfd6;
 }
 
