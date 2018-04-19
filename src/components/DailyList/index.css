@@ -1,0 +1,31 @@
+.daily-list {
+  position: fixed;
+  bottom: 0;
+  right: 20px;
+  min-width: 280px;
+  background-color: #EEE;
+  z-index: 10;
+}
+
+.daily-list--extend-button {
+  padding: 8px 12px;
+  border: 1px solid #DDD;
+}
+
+.daily-list--extend-button .badge {
+  margin-top: 2px;
+}
+
+.daily-list--places {
+  font-size: 0.9rem; 
+  background-color: white;
+  padding: 5px 12px;
+}
+
+.daily-list--place {
+  font-weight: bold;
+}
+
+.daily-list--place i {
+  margin-top: 2px;
+}

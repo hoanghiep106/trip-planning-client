@@ -4,6 +4,7 @@ import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import ExploreService from '../services/Explore';
 
 import Header from '../components/Header';
+import DailyList from '../components/DailyList';
 
 import Recommendation from '../pages/Recommendation';
 import Plan from '../pages/Plan';
@@ -16,8 +17,6 @@ class App extends Component {
     this.places = [];
     this.state = {
       places: [],
-      dailyList: localStorage.getItem('dailyList') ?
-        JSON.parse(localStorage.getItem('dailyList')) : [],
     }
     this.handleSearch = this.handleSearch.bind(this);
   }
@@ -51,6 +50,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        <DailyList />
         <Header
           handleSearch={this.handleSearch}
         />

@@ -5,7 +5,6 @@ class Recommendation extends Component {
     return (
       <div className="card">
         <div className="card-body">
-          
         </div>
         <div className="row">
           <div className="col-md-6 col-md-push-3">

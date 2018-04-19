@@ -1,4 +1,5 @@
 import React from 'react';
+import ExploreService from '../../services/Explore';
 import './index.css';
 
 const ExploreItem = (props) => (
@@ -7,12 +8,18 @@ const ExploreItem = (props) => (
       <div
         className="explore-item--image"
         style={{ background: `url(${props.image_url}) no-repeat` }}
-      />
-      <b>{props.name}</b>
-      <span className="explore-item--rating-icon">
+      >
+        <button
+          className="btn btn-dark explore-item--button"
+          onClick={() => ExploreService.saveToList(props)}
+        >Add to today list
+        </button>
+      </div>
+      <h5 className="explore-item--name pl-2 my-2">{props.name}</h5>
+      <span className="explore-item--rating-icon pull-right pr-2">
         <i className="fa fa-star" /> {props.rating}
       </span>
-      <p>{props.short_description}</p>
+      <p className="explore-item--description px-2">{`${props.short_description.slice(0, 50)}...`}</p>
     </div>
   </div>
 )

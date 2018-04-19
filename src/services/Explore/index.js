@@ -26,7 +26,7 @@ const ExploreService = {
     let places = localStorage.getItem('dailyList') && JSON.parse(localStorage.getItem('dailyList'));
     if (places) {
       places = places.filter(place => place.id !== id);
-      localStorage.setItem('dailyList', places);
+      localStorage.setItem('dailyList', JSON.stringify(places));
       this.DailyListChange();
     }
   },
@@ -34,11 +34,14 @@ const ExploreService = {
   saveToList(place) {
     let places = localStorage.getItem('dailyList') && JSON.parse(localStorage.getItem('dailyList'));
     if (places) {
-      places = [...places, place];
-      localStorage.setItem('dailyList', places);
+      const existedIds = places.map(place => place.id);
+      if (!existedIds.includes(place.id)) {
+        places = [...places, place];
+        localStorage.setItem('dailyList', JSON.stringify(places));
+      }
     } else {
       places = [place];
-      localStorage.setItem('dailyList', places);
+      localStorage.setItem('dailyList', JSON.stringify(places));
     }
     this.DailyListChange();
   },
@@ -52,7 +55,7 @@ const ExploreService = {
   },
 
   removeDailyListChangeListener(callback) {
-    window.removeEventListener('dailyListChange', callback);
+    window.removeEventListener('dailyListChange', callback, false);
   },
 };
 
