@@ -1,19 +1,56 @@
 import React, { Component } from 'react';
+import RecommendationService from '../../services/Recommendation';
+import TripDetails from './TripDetails';
+import GoogleMaps from '../../components/GoogleMaps';
 
-class Recommendation extends Component {
+import './index.css';
+
+class Plan extends Component {
+  constructor(props) {
+    super(props);
+    this.places = [];
+    this.state = {
+      routes: [],
+      dailyList: localStorage.getItem('dailyList') ?
+        JSON.parse(localStorage.getItem('dailyList')) : [],
+    };
+    this.getRoute = this.getRoute.bind(this);
+  }
+
+  componentDidMount() {
+    this.getRoute();
+  }
+
+  getRoute() {
+    RecommendationService.getRoute({
+      place_ids: this.state.dailyList.map(place => place.id).join(','),
+    }).then((res) => {
+      this.setState({ routes: res.data.routes });
+    });
+  }
+
   render() {
     return (
-      <div className="card">
-        <div className="card-body">
-        </div>
-        <div className="row">
-          <div className="col-md-6 col-md-push-3">
-            Plan
-          </div>
-        </div>
-      </div>
+      <React.Fragment>
+        <TripDetails 
+          places={this.state.dailyList}
+          close={this.hideSearchResults}
+          onClickItem={this.handleClickItem}
+        />
+        <GoogleMaps
+          containerElement={
+            <div className="google-maps-container" />
+          }
+          mapElement={
+            <div style={{ height: '100%' }} />
+          }
+          center={this.state.dailyList && this.state.dailyList[0].location}
+          markers={this.state.dailyList}
+          polylines={this.state.routes}
+        />
+      </React.Fragment>
     );
   }
 }
 
-export default Recommendation;
+export default Plan;

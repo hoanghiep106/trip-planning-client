@@ -4,9 +4,7 @@ import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import ExploreService from '../services/Explore';
 
 import Header from '../components/Header';
-import DailyList from '../components/DailyList';
 
-import Recommendation from '../pages/Recommendation';
 import Plan from '../pages/Plan';
 import Detail from '../pages/Detail';
 import Explore from '../pages/Explore';
@@ -50,13 +48,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        <DailyList />
-        <Header
-          handleSearch={this.handleSearch}
-        />
+        <Header handleSearch={this.handleSearch} />
         <HashRouter>
           <Switch>
-            <Route path="/recommendation" name="Recommendation" component={Recommendation} />
             <Route path="/plan" name="Plan" component={Plan} />
             <Route path="/explore/:id" name="Detail" component={Detail} />
             <Route path="/explore" name="Explore" render={this.RenderExplore} />

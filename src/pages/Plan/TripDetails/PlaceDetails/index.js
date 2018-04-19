@@ -9,7 +9,6 @@ const RecommendationItem = (props) => (
     <div className="text">
       {props.place.name}
     </div>
-    <button className="btn btn-success get-here-btn" onClick={() => props.handleClickItem(props.place)}>To today list</button>
     <span className="rating-icon"><i className="fa fa-star" /> {props.place.rating}</span>
   </div>
 );

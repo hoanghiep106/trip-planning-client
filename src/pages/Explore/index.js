@@ -15,7 +15,9 @@ const ExploreItem = (props) => (
         >Add to today list
         </button>
       </div>
-      <h5 className="explore-item--name pl-2 my-2">{props.name}</h5>
+      <a href={`${window.location.href}/${props.id}`} target="_blank">
+        <h5 className="explore-item--name pl-2 my-2">{props.name}</h5>
+      </a>
       <span className="explore-item--rating-icon pull-right pr-2">
         <i className="fa fa-star" /> {props.rating}
       </span>

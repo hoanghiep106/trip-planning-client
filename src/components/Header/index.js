@@ -1,5 +1,6 @@
 import React from 'react';
 import SearchBar from '../SearchBar';
+import DailyList from '../DailyList';
 import './index.css';
 
 class Header extends React.Component {
@@ -24,8 +25,8 @@ class Header extends React.Component {
           </li>
           <li className="nav-right">
             <a
-              className={this.state.currentRoute === '#/recommendation' ? 'active' : ''}
-              onClick={() => this.changeRoute('#/recommendation')}
+              className={this.state.currentRoute === '#/plan' ? 'active' : ''}
+              onClick={() => this.changeRoute('#/plan')}
             >Plan</a>
           </li>
           <li className="nav-right">
@@ -35,6 +36,7 @@ class Header extends React.Component {
             >Explore</a>
           </li>
         </ul>
+        {this.state.currentRoute !== '#/plan' && <DailyList />}
       </div>
     )
   }
