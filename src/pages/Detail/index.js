@@ -7,6 +7,7 @@ import Content from './Content';
 import Map from '../../components/GoogleMaps';
 
 import RecommendationService from '../../services/Recommendation';
+import ExploreService from '../../services/Explore';
 import { PlaceTypeInfo } from '../../constants/common';
 
 import './index.css';
@@ -17,26 +18,35 @@ class Detail extends React.Component {
 
     this.state = {
       place: null,
+      isOnList: false,
     };
   }
 
   componentDidMount() {
     RecommendationService.getPlace(this.props.match.params.id).then((response) => {
-      this.setState({ place: response.data });
+      this.setState({ 
+        place: response.data,
+        isOnList: ExploreService.placeInList(response.data.id),
+      });
     })
+
+    ExploreService.addDailyListChangeListener(() => this.setState({ isOnList: ExploreService.placeInList(this.state.place.id)}));
   }
 
   render() {
-    const { place } = this.state;
+    const { place, isOnList } = this.state;
     if (place === null) return null;
     return (
       <div>
-        <Cover imageUrl={place.image_url} />
+        {/* <Cover imageUrl={place.image_url} /> */}
         <div className="detail-content">
           <Heading 
             name={place.name}
             placeType={PlaceTypeInfo[place.type_id]}
             rating={place.rating}
+            onAddClick={() => ExploreService.saveToList(place)}
+            onRemoveClick={() => ExploreService.removeFromList(place.id)}
+            isOnList={isOnList}
           />
           <hr />
           <Content 
