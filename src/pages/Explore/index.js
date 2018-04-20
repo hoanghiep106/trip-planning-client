@@ -3,7 +3,7 @@ import ExploreService from '../../services/Explore';
 import './index.css';
 
 const ExploreItem = (props) => (
-  <div className="col-md-4 col-sm-6">
+  <div className="col-md-4 col-sm-6 mt-3">
     <div className="explore-item">
       <div
         className="explore-item--image"
