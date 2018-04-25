@@ -21,7 +21,7 @@ class Header extends React.Component {
       <div className="nav-bar">
         <ul>
           <li className="nav-left">
-            <SearchBar search={this.props.handleSearch} />
+            {this.state.currentRoute !== '#/plan' && <SearchBar search={this.props.handleSearch} />}
           </li>
           <li className="nav-right">
             <a

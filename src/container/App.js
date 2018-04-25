@@ -17,16 +17,31 @@ class App extends Component {
       places: [],
     }
     this.handleSearch = this.handleSearch.bind(this);
+    this.checkPlaceInList = this.checkPlaceInList.bind(this);
   }
 
   componentDidMount() {
     this.fetchPlaces();
+    ExploreService.addDailyListChangeListener(this.checkPlaceInList);
+  }
+
+  componentWillUnmount() {
+    ExploreService.removeDailyListChangeListener(this.checkPlaceInList());
+  }
+
+  checkPlaceInList() {
+    this.setState({
+      places: this.state.places.map(place => ({
+        ...place,
+        inDailyList: ExploreService.placeInList(place.id),
+      })),
+    });
   }
 
   fetchPlaces() {
     ExploreService.getPlaces().then((res) => {
       this.places = res.data.places;
-      this.setState({ places: res.data.places });
+      this.setState({ places: res.data.places }, () => this.checkPlaceInList());
     });
   }
 

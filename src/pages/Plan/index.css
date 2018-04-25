@@ -1,8 +1,10 @@
 .google-maps-container {
   position: fixed;
-  height: 100vh;
-  width: 100vw;
+  height: calc(100vh - 65px);
+  margin-top: 65px;
+  width: 60vw;
   top: 0;
+  left: 40vw;
   z-index: -1;
 }
 
@@ -10,12 +12,12 @@
   position: absolute;
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 2px 0 5px -2px #888;
-  width: 350px;
+  width: 40vw;
 }
 
 .place-list-height {
   margin-top: -7px;
-  height: calc(100vh - 41px);
+  height: calc(100vh - 115px);
 }
 
 .place-list h4 {

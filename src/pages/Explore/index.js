@@ -7,13 +7,24 @@ const ExploreItem = (props) => (
     <div className="explore-item">
       <div
         className="explore-item--image"
-        style={{ background: `url(${props.image_url}) no-repeat` }}
+        style={{
+          background: `url(${props.image_url}) no-repeat center center`,
+          backgroundSize: 'cover',
+        }}
       >
+        {props.inDailyList ?
+        <button
+          className="btn btn-danger explore-item--button"
+          onClick={() => ExploreService.removeFromList(props.id)}
+        >Remove from today list
+        </button>
+        :
         <button
           className="btn btn-dark explore-item--button"
           onClick={() => ExploreService.saveToList(props)}
         >Add to today list
         </button>
+        }
       </div>
       <a href={`${window.location.href}/${props.id}`} target="_blank">
         <h5 className="explore-item--name pl-2 my-2">{props.name}</h5>
