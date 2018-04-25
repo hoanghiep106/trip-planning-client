@@ -60,13 +60,17 @@ class App extends Component {
     <Explore places={this.state.places} />
   );
 
+  RenderPlan = () => (
+    <Plan places={this.places} />
+  );
+
   render() {
     return (
       <div>
         <Header handleSearch={this.handleSearch} />
         <HashRouter>
           <Switch>
-            <Route path="/plan" name="Plan" component={Plan} />
+            <Route path="/plan" name="Plan" render={this.RenderPlan} />
             <Route path="/explore/:id" name="Detail" component={Detail} />
             <Route path="/explore" name="Explore" render={this.RenderExplore} />
             <Redirect to="/explore" />

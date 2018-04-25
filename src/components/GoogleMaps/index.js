@@ -41,21 +41,19 @@ const MainGoogleMap = withGoogleMap(props => (
         />
       ))
       }
-      {(props.polylines && props.polylines.length > 0) ?
+      {(props.polylines && props.polylines.length > 0) &&
         props.polylines.map((trip, index) => (
           <Polyline
             key={index}
             path={trip.route ? decodePolyline(trip.route) : []}
             geodesic
             options={{
-              strokeColor: '#2962FF',
-              strokeOpacity: 1.0,
+              strokeColor: props.highlight === trip.id && '#414141',
+              strokeOpacity: (!props.highlight || props.highlight === trip.id) ? 1.0 : 0,
               strokeWeight: 3,
             }}
           />
         ))
-        :
-        null
       }
     </div>
   </GoogleMap>
