@@ -7,3 +7,5 @@ export const PlaceTypeInfo = {
   [PlaceType.NATURAL_FEATURE]: 'Natural Feature',
   [PlaceType.PARK]: 'Amusement Park',
 }
+
+export const GoodWeatherIds = [800, 801, 802, 803, 804];

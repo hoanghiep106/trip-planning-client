@@ -1,6 +1,7 @@
 import React from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 import RouteDetails from './RouteDetails';
+import WeatherDetail from './WeatherDetail';
 
 class TripDetails extends React.Component {
   constructor(props) {
@@ -39,7 +40,10 @@ class TripDetails extends React.Component {
         {this.state.show &&
         <div className="route-list-height">
           <Scrollbars>
-            {routeList}
+            <WeatherDetail weather={this.props.weather}/>
+            <div>
+              {routeList}
+            </div>
           </Scrollbars>
         </div>
         }

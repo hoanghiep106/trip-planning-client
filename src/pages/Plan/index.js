@@ -3,6 +3,8 @@ import RecommendationService from '../../services/Recommendation';
 import TripDetails from './TripDetails';
 import GoogleMaps from '../../components/GoogleMaps';
 
+import { GoodWeatherIds } from '../../constants/common';
+
 import './index.css';
 
 class Plan extends Component {
@@ -13,6 +15,7 @@ class Plan extends Component {
       dailyList: localStorage.getItem('dailyList') ?
         JSON.parse(localStorage.getItem('dailyList')) : [],
       chosenRouteId: null,
+      weather: {},
     };
     this.getRoute = this.getRoute.bind(this);
     this.handleChooseRoute = this.handleChooseRoute.bind(this);
@@ -20,7 +23,10 @@ class Plan extends Component {
   }
 
   componentDidMount() {
-    this.getRoute();
+    RecommendationService.getWeather().then(res => {
+      console.log(res.data);
+      this.setState({ weather: { ...res.data.main, ...res.data.weather[0] }}, () => this.getRoute());
+    });
   }
 
   onMapLoad(map) {
@@ -35,8 +41,13 @@ class Plan extends Component {
   }
 
   getRoute() {
+    let weather_condition = 1;
+    if (GoodWeatherIds.includes(this.state.weather.id)) {
+      weather_condition = 0;
+    }
     RecommendationService.getRoute({
       place_ids: this.state.dailyList.map(place => place.id).join(','),
+      weather_condition,
     }).then((res) => {
       this.setState({
         routes: res.data.routes,
@@ -51,7 +62,8 @@ class Plan extends Component {
   render() {
     return (
       <React.Fragment>
-        <TripDetails 
+        <TripDetails
+          weather={this.state.weather}
           routes={this.state.routes}
           onChooseRoute={this.handleChooseRoute}
           chosenRouteId={this.state.chosenRouteId}
