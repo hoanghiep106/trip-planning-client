@@ -1,8 +1,7 @@
 import React from 'react';
-import SearchBar from '../SearchBar';
-import DailyList from '../DailyList';
-import auth from  '../../utils/auth';
-import './index.css';
+import SearchBar from './SearchBar';
+import DailyList from './DailyList';
+import auth from  '../utils/auth';
 
 class Header extends React.Component {
   constructor(props) {

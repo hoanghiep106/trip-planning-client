@@ -1,7 +1,7 @@
 import React from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
-import RouteDetails from './RouteDetails';
-import WeatherDetail from './WeatherDetail';
+import RouteInfo from './RouteInfo';
+import WeatherInfo from './WeatherInfo';
 
 class TripDetails extends React.Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class TripDetails extends React.Component {
 
   render() {
     const routeList = this.props.routes.map(route => (
-      <RouteDetails
+      <RouteInfo
         route={route}
         key={route.id}
         handleClickItem={this.props.onClickItem}
@@ -40,7 +40,7 @@ class TripDetails extends React.Component {
         {this.state.show &&
         <div className="route-list-height">
           <Scrollbars>
-            <WeatherDetail weather={this.props.weather}/>
+            <WeatherInfo weather={this.props.weather}/>
             <div>
               {routeList}
             </div>

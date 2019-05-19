@@ -1,9 +1,8 @@
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
-import LoadingIndicator from '../LoadingIndicator';
-import AuthenticationService from '../../services/Authentication';
-import auth from '../../utils/auth';
-import './index.css';
+import LoadingIndicator from '../components/LoadingIndicator';
+import AuthenticationService from '../services/Authentication';
+import auth from '../utils/auth';
 
 
 class LoginForm extends React.Component {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const WeatherDetail = ({ weather }) => {
+const WeatherInfo = ({ weather }) => {
   const temperature = Math.round(weather.temp - 273.15);
   let recommendation = '';
   if (temperature > 30) {
@@ -37,4 +37,4 @@ const WeatherDetail = ({ weather }) => {
   )
 };
 
-export default WeatherDetail;
+export default WeatherInfo;

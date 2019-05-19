@@ -4,8 +4,8 @@ body {
   font-family: "Montserrat", sans-serif;
   font-weight: 300;
   font-size: 0.8rem;
-  color: #414141;
-  background-color: #fff;
+  color: $gray0;
+  background-color: $white;
 }
 
 button:focus, input:focus {
@@ -36,3 +36,4 @@ a:hover {
 .pointer {
   cursor: pointer;
 }
+

@@ -3,12 +3,12 @@ import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import PlaceService from '../services/Place';
 
-import Header from '../components/Header';
-import Login from '../components/Login/index';
+import Header from '../components/Header.js';
 
-import Plan from '../pages/Plan';
-import Detail from '../pages/Detail';
-import Explore from '../pages/Explore';
+import Login from '../pages/Login.js';
+import Plan from '../pages/Plan.js';
+import Detail from '../pages/PlaceInfo.js';
+import Explore from '../pages/Explore.js';
 import auth from '../utils/auth';
 
 

@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import PlannerService from '../../services/Planner';
-import TripDetails from './TripDetails';
-import GoogleMaps from '../../components/GoogleMaps';
+import PlannerService from '../services/Planner';
+import TripInfo from '../components/TripInfo';
+import GoogleMaps from '../components/GoogleMaps';
 
-import { GoodWeatherIds } from '../../constants/common';
-
-import './index.css';
+import { GoodWeatherIds } from '../constants/common';
 
 class Plan extends Component {
   constructor(props) {
@@ -62,7 +60,7 @@ class Plan extends Component {
     const defaultLocation = this.state.dailyList && this.state.dailyList[0] && this.state.dailyList[0].location
     return (
       <React.Fragment>
-        <TripDetails
+        <TripInfo
           weather={this.state.weather}
           routes={this.state.routes}
           onChooseRoute={this.handleChooseRoute}

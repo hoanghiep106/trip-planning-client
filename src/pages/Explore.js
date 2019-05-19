@@ -1,6 +1,5 @@
 import React from 'react';
-import PlaceService from '../../services/Place';
-import './index.css';
+import PlaceService from '../services/Place';
 
 const ExploreItem = (props) => (
   <div className="col-md-4 col-sm-6 mt-3">

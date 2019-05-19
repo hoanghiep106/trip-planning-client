@@ -1,6 +1,5 @@
 import React from 'react';
-import PlaceService from '../../services/Place';
-import './index.css';
+import PlaceService from '../services/Place';
 
 class DailyList extends React.Component {
   constructor(props) {

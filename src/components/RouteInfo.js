@@ -1,5 +1,5 @@
 import React from 'react';
-import { secondsToTime, getDistance } from '../../../../utils';
+import { secondsToTime, getDistance } from '../utils';
 
 const RouteDetails = (props) => (
   <div className={`route-item ${props.chosenRouteId === props.route.id ? 'route-chosen': ''}`}>

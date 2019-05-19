@@ -1,7 +1,7 @@
 import React from 'react';
 import { withGoogleMap, GoogleMap, Marker, Polyline } from 'react-google-maps';
-import { googleConfig } from '../../config/app';
-import { decodePolyline } from '../../utils';
+import { googleConfig } from '../config/app';
+import { decodePolyline } from '../utils';
 
 const MainGoogleMap = withGoogleMap(props => (
   <GoogleMap

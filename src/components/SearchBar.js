@@ -1,6 +1,5 @@
 import React from 'react';
-import { debounce } from '../../utils/';
-import './index.css'
+import { debounce } from '../utils';
 
 class SearchBar extends React.Component {
   handleChange(term) {
