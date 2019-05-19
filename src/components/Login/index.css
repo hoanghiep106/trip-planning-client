@@ -1,0 +1,31 @@
+.sign-up {
+  width: 500px;
+  max-width: 500px;
+  min-height: calc(100vh - 68px);
+  padding-bottom: 3rem;
+  margin: 0 auto;
+  padding-top: 65px;
+  flex-shrink: 0;
+}
+
+.sign-up--main-text {
+  margin: 0 auto 45px;
+  font-weight: 300;
+  font-size: 2.4rem;
+}
+
+.sign-up--card {
+  padding: 50px 40px;
+  border: 1px #a0a0a0 solid;
+}
+
+.sign-up--input {
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.facebook-login-button {
+  display: block;
+  border-radius: 5px;
+  
+}

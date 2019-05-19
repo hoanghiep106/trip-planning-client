@@ -1,13 +1,10 @@
 import React from 'react';
-
-import StarRatingComponent from 'react-star-rating-component'; 
-import Cover from './Cover';
 import Heading from './Heading';
 import Content from './Content';
 import Map from '../../components/GoogleMaps';
 
-import RecommendationService from '../../services/Recommendation';
-import ExploreService from '../../services/Explore';
+import PlannerService from '../../services/Planner';
+import PlaceService from '../../services/Place';
 import { PlaceTypeInfo } from '../../constants/common';
 
 import './index.css';
@@ -23,14 +20,14 @@ class Detail extends React.Component {
   }
 
   componentDidMount() {
-    RecommendationService.getPlace(this.props.match.params.id).then((response) => {
+    PlannerService.getPlace(this.props.match.params.id).then((response) => {
       this.setState({ 
         place: response.data,
-        isOnList: ExploreService.placeInList(response.data.id),
+        isOnList: PlaceService.placeInList(response.data.id),
       });
     })
 
-    ExploreService.addDailyListChangeListener(() => this.setState({ isOnList: ExploreService.placeInList(this.state.place.id)}));
+    PlaceService.addDailyListChangeListener(() => this.setState({ isOnList: PlaceService.placeInList(this.state.place.id)}));
   }
 
   render() {
@@ -44,13 +41,13 @@ class Detail extends React.Component {
             name={place.name}
             placeType={PlaceTypeInfo[place.type_id]}
             rating={place.rating}
-            onAddClick={() => ExploreService.saveToList(place)}
-            onRemoveClick={() => ExploreService.removeFromList(place.id)}
+            onAddClick={() => PlaceService.saveToList(place)}
+            onRemoveClick={() => PlaceService.removeFromList(place.id)}
             isOnList={isOnList}
           />
           <hr />
           <Content 
-            paragraphs={place.long_description.split('|')}
+            paragraphs={place.long_description && place.long_description.split('|')}
           />
           <hr />
           <Map 

@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { placesUrl } from '../../config/api';
+import { placesUrl } from '../config/api';
 
-const ExploreService = {
+const PlaceService = {
 
   dailyListChangeEvent: new CustomEvent('dailyListChange'),
 
@@ -59,4 +59,4 @@ const ExploreService = {
   },
 };
 
-export default ExploreService;
+export default PlaceService;

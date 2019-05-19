@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 
-import ExploreService from '../services/Explore';
+import PlaceService from '../services/Place';
 
 import Header from '../components/Header';
+import Login from '../components/Login/index';
 
 import Plan from '../pages/Plan';
 import Detail from '../pages/Detail';
 import Explore from '../pages/Explore';
+import auth from '../utils/auth';
+
 
 class App extends Component {
   constructor(props) {
@@ -15,31 +18,34 @@ class App extends Component {
     this.places = [];
     this.state = {
       places: [],
+      isAuth: auth.isAuth(),
     }
     this.handleSearch = this.handleSearch.bind(this);
     this.checkPlaceInList = this.checkPlaceInList.bind(this);
   }
 
   componentDidMount() {
-    this.fetchPlaces();
-    ExploreService.addDailyListChangeListener(this.checkPlaceInList);
+    // this.fetchPlaces();
+    PlaceService.addDailyListChangeListener(this.checkPlaceInList);
+    this.removeAuthListener = auth.onChange(() => this.setState({ isAuth: auth.isAuth() }));
   }
 
   componentWillUnmount() {
-    ExploreService.removeDailyListChangeListener(this.checkPlaceInList());
+    PlaceService.removeDailyListChangeListener(this.checkPlaceInList());
+    this.removeAuthListener();
   }
 
   checkPlaceInList() {
     this.setState({
       places: this.state.places.map(place => ({
         ...place,
-        inDailyList: ExploreService.placeInList(place.id),
+        inDailyList: PlaceService.placeInList(place.id),
       })),
     });
   }
 
   fetchPlaces() {
-    ExploreService.getPlaces().then((res) => {
+    PlaceService.getPlaces().then((res) => {
       this.places = res.data.places;
       this.setState({ places: res.data.places }, () => this.checkPlaceInList());
     });
@@ -70,7 +76,11 @@ class App extends Component {
         <Header handleSearch={this.handleSearch} />
         <HashRouter>
           <Switch>
-            <Route path="/plan" name="Plan" render={this.RenderPlan} />
+            {this.state.isAuth ?
+              <Route path="/plan" name="Plan" render={this.RenderPlan} />
+              :
+              <Route path="/login" name="Login" component={Login} />
+            }
             <Route path="/explore/:id" name="Detail" component={Detail} />
             <Route path="/explore" name="Explore" render={this.RenderExplore} />
             <Redirect to="/explore" />

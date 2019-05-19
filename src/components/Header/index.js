@@ -1,6 +1,7 @@
 import React from 'react';
 import SearchBar from '../SearchBar';
 import DailyList from '../DailyList';
+import auth from  '../../utils/auth';
 import './index.css';
 
 class Header extends React.Component {
@@ -8,7 +9,16 @@ class Header extends React.Component {
     super(props);
     this.state = {
       currentRoute: window.location.hash,
+      isAuth: auth.isAuth(),
     };
+  }
+
+  componentDidMount() {
+    this.removeAuthListener = auth.onChange(() => this.setState({ isAuth: auth.isAuth() }));
+  }
+
+  componentWillUnmount() {
+    this.removeAuthListener();
   }
 
   changeRoute(route) {
@@ -23,12 +33,24 @@ class Header extends React.Component {
           <li className="nav-left">
             {this.state.currentRoute !== '#/plan' && <SearchBar search={this.props.handleSearch} />}
           </li>
-          <li className="nav-right">
-            <a
-              className={this.state.currentRoute === '#/plan' ? 'active' : ''}
-              onClick={() => this.changeRoute('#/plan')}
-            >Plan</a>
-          </li>
+          {this.state.isAuth ?
+            <React.Fragment>
+              <li className="nav-right"><a onClick={() => auth.logout()}>Logout</a></li>
+              <li className="nav-right">
+                <a
+                  className={this.state.currentRoute === '#/plan' ? 'active' : ''}
+                  onClick={() => this.changeRoute('#/plan')}
+                >Plan</a>
+              </li>
+            </React.Fragment>
+            :
+            <li className="nav-right">
+              <a
+                className={this.state.currentRoute === '#/login' ? 'active' : ''}
+                onClick={() => this.changeRoute('#/login')}
+              >Login</a>
+            </li>
+          }
           <li className="nav-right">
             <a
               className={this.state.currentRoute === '#/explore' ? 'active' : ''}

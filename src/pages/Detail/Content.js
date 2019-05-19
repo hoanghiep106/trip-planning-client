@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Content = ({ paragraphs }) => (
+const Content = ({ paragraphs }) => paragraphs && (
   <React.Fragment>
   {paragraphs.map(paragraph => (
     <div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import RecommendationService from '../../services/Recommendation';
+import PlannerService from '../../services/Planner';
 import TripDetails from './TripDetails';
 import GoogleMaps from '../../components/GoogleMaps';
 
@@ -23,15 +23,14 @@ class Plan extends Component {
   }
 
   componentDidMount() {
-    RecommendationService.getWeather().then(res => {
-      console.log(res.data);
+    PlannerService.getWeather().then(res => {
       this.setState({ weather: { ...res.data.main, ...res.data.weather[0] }}, () => this.getRoute());
     });
   }
 
   onMapLoad(map) {
     this.map = map;
-    if (this.map) {
+    if (this.map && this.state.dailyList) {
       const bounds = new window.google.maps.LatLngBounds();
       this.state.dailyList.forEach((place) => {
           bounds.extend(place.location);
@@ -45,7 +44,7 @@ class Plan extends Component {
     if (GoodWeatherIds.includes(this.state.weather.id)) {
       weather_condition = 0;
     }
-    RecommendationService.getRoute({
+    PlannerService.getRoute({
       place_ids: this.state.dailyList.map(place => place.id).join(','),
       weather_condition,
     }).then((res) => {
@@ -60,6 +59,7 @@ class Plan extends Component {
   }
 
   render() {
+    const defaultLocation = this.state.dailyList && this.state.dailyList[0] && this.state.dailyList[0].location
     return (
       <React.Fragment>
         <TripDetails
@@ -76,7 +76,7 @@ class Plan extends Component {
             <div style={{ height: '100%' }} />
           }
           onMapLoad={this.onMapLoad}
-          center={this.state.dailyList && this.state.dailyList[1].location}
+          center={defaultLocation}
           markers={this.state.dailyList}
           bounds={this.state.bounds}
           polylines={this.state.routes}

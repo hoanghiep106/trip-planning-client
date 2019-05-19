@@ -1,5 +1,5 @@
 import React from 'react';
-import ExploreService from '../../services/Explore';
+import PlaceService from '../../services/Place';
 import './index.css';
 
 const ExploreItem = (props) => (
@@ -15,13 +15,13 @@ const ExploreItem = (props) => (
         {props.inDailyList ?
         <button
           className="btn btn-danger explore-item--button"
-          onClick={() => ExploreService.removeFromList(props.id)}
+          onClick={() => PlaceService.removeFromList(props.id)}
         >Remove from today list
         </button>
         :
         <button
           className="btn btn-dark explore-item--button"
-          onClick={() => ExploreService.saveToList(props)}
+          onClick={() => PlaceService.saveToList(props)}
         >Add to today list
         </button>
         }

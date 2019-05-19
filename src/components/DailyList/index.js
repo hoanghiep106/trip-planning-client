@@ -1,5 +1,5 @@
 import React from 'react';
-import ExploreService from '../../services/Explore';
+import PlaceService from '../../services/Place';
 import './index.css';
 
 class DailyList extends React.Component {
@@ -14,11 +14,11 @@ class DailyList extends React.Component {
   }
 
   componentDidMount() {
-    ExploreService.addDailyListChangeListener(this.updateDailyList);
+    PlaceService.addDailyListChangeListener(this.updateDailyList);
   }
 
   componentWillUnmount() {
-    ExploreService.removeDailyListChangeListener(this.updateDailyList);
+    PlaceService.removeDailyListChangeListener(this.updateDailyList);
   }
 
   updateDailyList() {
@@ -49,7 +49,7 @@ class DailyList extends React.Component {
             {place.name}
             <i
               className="fa fa-minus-circle pull-right pointer"
-              onClick={() => ExploreService.removeFromList(place.id)}
+              onClick={() => PlaceService.removeFromList(place.id)}
             />
           </div>
         </div>

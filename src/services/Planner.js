@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { placesUrl, routeUrl } from '../../config/api';
+import { placesUrl, routeUrl } from '../config/api';
 
-const RecommendationService = {
+const PlannerService = {
   getPlaces(params) {
     return axios({
       method: 'get',
@@ -30,4 +30,4 @@ const RecommendationService = {
   }
 };
 
-export default RecommendationService;
+export default PlannerService;
