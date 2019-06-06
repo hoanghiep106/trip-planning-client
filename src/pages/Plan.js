@@ -1,70 +1,102 @@
-import React, { Component } from 'react';
-import PlannerService from '../services/Planner';
+import React from 'react';
+import uuidv4 from 'uuid/v4';
 import TripInfo from '../components/TripInfo';
 import GoogleMaps from '../components/GoogleMaps';
+import currentTrip from '../utils/currentTrip';
 
-import { GoodWeatherIds } from '../constants/common';
 
-class Plan extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      routes: [],
-      dailyList: localStorage.getItem('dailyList') ?
-        JSON.parse(localStorage.getItem('dailyList')) : [],
-      chosenRouteId: null,
-      weather: {},
-    };
-    this.getRoute = this.getRoute.bind(this);
-    this.handleChooseRoute = this.handleChooseRoute.bind(this);
-    this.onMapLoad = this.onMapLoad.bind(this);
+const getPlaceLocation = (place) => ({
+  id: uuidv4(),
+  name: place.name,
+  location: {
+    lat: place.latitude,
+    lng: place.longitude,
   }
+});
+
+class Plan extends React.Component {
+  state = {
+    currentTrip: currentTrip.get(),
+    chosenRouteId: null,
+    // Itinerary index
+    currentDay: 0,
+  };
 
   componentDidMount() {
-    PlannerService.getWeather().then(res => {
-      this.setState({ weather: { ...res.data.main, ...res.data.weather[0] }}, () => this.getRoute());
-    });
+    this.removeCurrenttripListener = currentTrip.onChange(() => this.setState({ currentTrip: currentTrip.get() }));
   }
 
-  onMapLoad(map) {
+  componentWillUnmount() {
+    this.removeCurrenttripListener();
+  }
+
+  onMapLoad = (map) => {
+    const { currentTrip } = this.state;
     this.map = map;
-    if (this.map && this.state.dailyList) {
+    if (this.map && this.state.currentTrip) {
       const bounds = new window.google.maps.LatLngBounds();
-      this.state.dailyList.forEach((place) => {
-          bounds.extend(place.location);
+      currentTrip.itineraries && [].concat.apply([], currentTrip.itineraries.map(itinerary => itinerary.places)).forEach((place) => {
+          bounds.extend({
+            lat: place.latitude,
+            lng: place.longitude,
+          });
       });
       this.map.fitBounds(bounds);
     }
   }
 
-  getRoute() {
-    let weather_condition = 1;
-    if (GoodWeatherIds.includes(this.state.weather.id)) {
-      weather_condition = 0;
-    }
-    PlannerService.getRoute({
-      place_ids: this.state.dailyList.map(place => place.id).join(','),
-      weather_condition,
-    }).then((res) => {
-      this.setState({
-        routes: res.data.routes,
+  handleChooseDay = (index) => {
+    this.setState({ currentDay: index, chosenRouteId: null });
+    if (this.map && this.state.currentTrip) {
+      const bounds = new window.google.maps.LatLngBounds();
+      this.state.currentTrip.itineraries[index].places.forEach((place) => {
+        bounds.extend({
+          lat: place.latitude,
+          lng: place.longitude,
+        });
       });
-    });
+      this.map.fitBounds(bounds);
+    }
   }
 
-  handleChooseRoute(id) {
-    this.setState({ chosenRouteId: id });
+  handleChooseRoute = (id) => {
+    this.setState({ chosenRouteId: this.state.chosenRouteId === id ? null : id });
   }
+
+  handleRemoveDay = () => this.handleChooseDay(0);
 
   render() {
-    const defaultLocation = this.state.dailyList && this.state.dailyList[0] && this.state.dailyList[0].location
+    const { currentTrip } = this.state;
+    const places = currentTrip && [].concat.apply([], currentTrip.itineraries.map(itinerary => itinerary.places));
+    const defaultLocation = places && places[0] && { lat: places[0].latitude, lng: places[0].longitude };
+    const currentItinerary = currentTrip && currentTrip.itineraries[this.state.currentDay];
+    const placeMap = {};
+    currentItinerary.places.forEach(place => {
+      placeMap[place.id] = place
+    });
+    const routes = currentItinerary.ordered_places && currentItinerary.ordered_places.filter((placeId, index) => index < currentItinerary.ordered_places.length - 1).map((placeId, index) => {
+      const origin = placeMap[currentItinerary.ordered_places[index]];
+      const dest = placeMap[currentItinerary.ordered_places[index + 1]];
+      return {
+        id: index + 1,
+        origin,
+        dest,
+        distance: 200,
+        time: 120,
+        route: [getPlaceLocation(origin).location, getPlaceLocation(dest).location],
+      };
+    });
     return (
       <React.Fragment>
         <TripInfo
+          currentTrip={this.state.currentTrip}
           weather={this.state.weather}
-          routes={this.state.routes}
+          routes={routes || []}
+          onChooseDay={this.handleChooseDay}
+          currentDay={this.state.currentDay}
           onChooseRoute={this.handleChooseRoute}
           chosenRouteId={this.state.chosenRouteId}
+          onRemoveDay={this.handleRemoveDay}
         />
         <GoogleMaps
           containerElement={
@@ -75,9 +107,9 @@ class Plan extends Component {
           }
           onMapLoad={this.onMapLoad}
           center={defaultLocation}
-          markers={this.state.dailyList}
+          markers={currentItinerary.places.map(place => getPlaceLocation(place))}
           bounds={this.state.bounds}
-          polylines={this.state.routes}
+          polylines={routes}
           highlight={this.state.chosenRouteId}
         />
       </React.Fragment>

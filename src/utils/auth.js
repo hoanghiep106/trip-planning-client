@@ -26,6 +26,12 @@ class Auth {
     setJson(AUTH_KEY, this.data);
   }
 
+  setUser(user) {
+    this.data.user = user;
+    this.listeners.forEach(listener => listener());
+    setJson(AUTH_KEY, this.data);
+  }
+
   logout() {
     this.data = {};
     this.listeners.forEach(listener => listener());

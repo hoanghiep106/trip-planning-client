@@ -2,8 +2,8 @@
   position: fixed;
   height: calc(100vh - 65px);
   margin-top: 65px;
-  width: 60vw;
-  left: 40vw;
+  width: 70vw;
+  left: 30vw;
   top: 0;
   z-index: -1;
 }
@@ -12,7 +12,7 @@
   position: absolute;
   background-color: #fff;
   box-shadow: 2px 0 5px -2px #888;
-  width: 40vw;
+  width: 30vw;
 }
 
 .route-list .fa-chevron-circle-up,

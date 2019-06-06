@@ -9,3 +9,10 @@ export const PlaceTypeInfo = {
 }
 
 export const GoodWeatherIds = [800, 801, 802, 803, 804];
+
+export const CATEGORY = {
+  FOOD: 'food',
+  DRINKS: 'drinks',
+  SIGHT: 'sight',
+  SHOPPING: 'shopping',
+}

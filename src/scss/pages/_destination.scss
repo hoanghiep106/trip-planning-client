@@ -1,0 +1,31 @@
+.destination {
+  background: linear-gradient(rgba(0, 0, 0, .3), rgba(0, 0, 0, .3)), url(https://upload.wikimedia.org/wikipedia/commons/d/dc/Skyscrapers_of_Shinjuku_2009_January_%28revised%29.jpg) no-repeat center center scroll;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 65% 0%;
+  height: 100vh;
+  position: relative;
+
+  .row {
+    position: relative;
+    width: 60%;
+    margin: 0 auto;
+  }
+}
+
+.destination--text {
+  font-size: 50px;
+  color: white;
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+.autocomplete-dropdown-container {
+  position: absolute;
+  top: 2.3rem;
+  width: 100%;
+
+  .suggestion-item, .suggestion-item--active {
+    padding: .5rem 1rem;
+  }
+}

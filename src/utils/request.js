@@ -1,6 +1,7 @@
 import axios from 'axios';
 import toastr from 'toastr';
 import { getHeaders } from '../config/api';
+import history from './history';
 
 const client = axios.create();
 
@@ -20,7 +21,7 @@ const request = (options) => {
     .catch((err) => {
       const isAuthorizationError = err.response &&
         (err.response.status === 403 || err.response.status === 401);
-      if (isAuthorizationError && window.location.hash !== '#/login') {
+      if (isAuthorizationError && history.location.pathname !== '/login') {
         performLogout();
         return;
       }

@@ -3,13 +3,13 @@
   bottom: 0;
   right: 20px;
   min-width: 280px;
-  background-color: #EEE;
+  background-color: #eee;
   z-index: 10;
+  box-shadow: 0 1px 5px 3px #999;
 }
 
 .daily-list--extend-button {
   padding: 8px 12px;
-  border: 1px solid #DDD;
 }
 
 .daily-list--extend-button .badge {
@@ -19,7 +19,7 @@
 .daily-list--places {
   font-size: 0.9rem; 
   background-color: white;
-  padding: 5px 12px;
+  padding: 8px 15px;
 }
 
 .daily-list--place {
@@ -28,4 +28,10 @@
 
 .daily-list--place i {
   margin-top: 2px;
+}
+
+.daily-list--day {
+  font-size: 0.9rem; 
+  background-color: #eee;
+  padding: 8px 15px;
 }

@@ -38,6 +38,7 @@ const MainGoogleMap = withGoogleMap(props => (
         <Marker
           key={marker.id}
           position={marker.location}
+          label={marker.name}
         />
       ))
       }
@@ -45,7 +46,7 @@ const MainGoogleMap = withGoogleMap(props => (
         props.polylines.map((trip, index) => (
           <Polyline
             key={index}
-            path={trip.route ? decodePolyline(trip.route) : []}
+            path={trip.route}
             geodesic
             options={{
               strokeColor: props.highlight === trip.id && '#414141',

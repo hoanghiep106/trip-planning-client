@@ -1,3 +1,5 @@
+import uuidv4 from 'uuid/v4';
+
 export function debounce(func, wait, immediate) {
   let timeout;
   return function apply(...args) {
@@ -59,5 +61,48 @@ export function secondsToTime(secs) {
 }
 
 export function getDistance(meters, toFixed = 0) {
-  return (meters && meters > 100) ? `${(meters / 1000).toFixed(toFixed)} km` : `${meters ? (meters).toFixed(0) : 0} m`;
+  return (meters && meters > 1000) ? `${(meters / 1000).toFixed(toFixed)} km` : `${meters ? (meters).toFixed(0) : 0} m`;
 }
+
+export const transformPlaces = (places) => {
+  return places.map((place) => ({
+    id: uuidv4(),
+    ...extractFoursquareData(place.foursquare),
+    ...extractFacebookData(place.facebook),
+    ...extractGoogleData(place.google),
+  }));
+}
+
+const extractGoogleData = (data) => {
+  if (!data) return {};
+  const transformedData = {};
+  if (data.name) transformedData.name = data.name;
+  if (data.rating) transformedData.rating = data.rating;
+  // if (data.photos.length > 0) transformedData.image_url = createGoogleImageUrl(data.photos[0].photo_reference);
+  return transformedData;
+}
+
+const extractFacebookData = (data) => {
+  if (!data) return {};
+  return {
+    name: data.name,
+    rating: data.overall_star_rating,
+    short_description: data.about,
+    image_url: data.picture && data.picture.data.url,
+    location: {
+      lat: data.lat,
+      lng: data.lng,
+    }
+  }
+}
+
+const extractFoursquareData = (data) => {
+  if (!data) return {};
+  return {
+    name: data.name,
+    image_url: data.venue.photos[0]
+  }
+}
+
+const createGoogleImageUrl = (ref) =>
+  `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${ref}&key=AIzaSyDPgb0q9Zm5Rw0VqXF9wvNLULK_IQRcNys`;

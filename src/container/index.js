@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
-
-import PlaceService from '../services/Place';
-
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import Header from '../components/Header.js';
 
-import Login from '../pages/Login.js';
-import Plan from '../pages/Plan.js';
-import Detail from '../pages/PlaceInfo.js';
+import Plan from '../pages/Plan';
+import Login from '../pages/Login';
 import Explore from '../pages/Explore.js';
+import Destination from '../pages/Destination';
+import Profile from '../pages/Profile';
+import history from '../utils/history';
+
 import auth from '../utils/auth';
+import currentTrip from '../utils/currentTrip';
 
 
 class App extends Component {
@@ -19,74 +20,55 @@ class App extends Component {
     this.state = {
       places: [],
       isAuth: auth.isAuth(),
+      currentTrip: currentTrip.get(),
     }
-    this.handleSearch = this.handleSearch.bind(this);
-    this.checkPlaceInList = this.checkPlaceInList.bind(this);
   }
 
   componentDidMount() {
-    // this.fetchPlaces();
-    PlaceService.addDailyListChangeListener(this.checkPlaceInList);
     this.removeAuthListener = auth.onChange(() => this.setState({ isAuth: auth.isAuth() }));
+    this.removecurrentTripListener = currentTrip.onChange(() => this.setState({ currentTrip: currentTrip.get() }));
   }
 
   componentWillUnmount() {
-    PlaceService.removeDailyListChangeListener(this.checkPlaceInList());
     this.removeAuthListener();
+    this.removecurrentTripListener();
   }
 
-  checkPlaceInList() {
-    this.setState({
-      places: this.state.places.map(place => ({
-        ...place,
-        inDailyList: PlaceService.placeInList(place.id),
-      })),
-    });
-  }
-
-  fetchPlaces() {
-    PlaceService.getPlaces().then((res) => {
-      this.places = res.data.places;
-      this.setState({ places: res.data.places }, () => this.checkPlaceInList());
-    });
-  }
-
-  handleSearch(term) {
-    if (term) {
-      this.setState({
-        places: this.places && this.places.length > 0 && this.places.filter(place =>
-          place.name.toUpperCase().indexOf(term.toUpperCase()) > -1),
-      });
-    } else {
-      this.setState({ places: this.places });
+  renderRoutes() {
+    if (!this.state.currentTrip) {
+      return (
+        <Switch>
+          <Route path="/destination" name="Destination" component={Destination} />
+          <Redirect to="/destination" />
+        </Switch>
+      )
     }
+    return (
+      <React.Fragment>
+        <Header />
+        <Switch>
+          <Route path="/explore" name="Explore" component={Explore} />
+          {this.state.isAuth ?
+            <React.Fragment>
+              <Route path="/plan" name="Plan" component={Plan} />
+              <Route path="/profile" name="Profile" component={Profile} />
+            </React.Fragment>
+            :
+            <Route path="/login" name="Login" component={Login} />
+          }
+          <Redirect from="/" to="/explore" />
+        </Switch>
+      </React.Fragment>
+    )
   }
-
-  RenderExplore = () => (
-    <Explore places={this.state.places} />
-  );
-
-  RenderPlan = () => (
-    <Plan places={this.places} />
-  );
 
   render() {
     return (
-      <div>
-        <Header handleSearch={this.handleSearch} />
-        <HashRouter>
-          <Switch>
-            {this.state.isAuth ?
-              <Route path="/plan" name="Plan" render={this.RenderPlan} />
-              :
-              <Route path="/login" name="Login" component={Login} />
-            }
-            <Route path="/explore/:id" name="Detail" component={Detail} />
-            <Route path="/explore" name="Explore" render={this.RenderExplore} />
-            <Redirect to="/explore" />
-          </Switch>
-        </HashRouter>
-      </div>
+      <React.Fragment>
+        <Router history={history}>
+          {this.renderRoutes()}
+        </Router>
+      </React.Fragment>
     );
   }
 }

@@ -3,6 +3,7 @@ import FacebookLogin from 'react-facebook-login';
 import LoadingIndicator from '../components/LoadingIndicator';
 import AuthenticationService from '../services/Authentication';
 import auth from '../utils/auth';
+import history from '../utils/history';
 
 
 class LoginForm extends React.Component {
@@ -34,7 +35,11 @@ class LoginForm extends React.Component {
   }
 
   handleAuthenticationSuccess = (res) => {
-    if (res.data) auth.setAuthToken(res.data.access_token);
+    if (res.data) {
+      auth.setAuthToken(res.data.access_token);
+      auth.setUser(res.data.user);
+    }
+    history.push('/explore');
   }
 
   handleAuthenticationFailed = (e) => {
